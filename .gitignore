@@ -1,0 +1,6 @@
+__pycache__/
+.idea/
+tcl-builder/logic/
+tcl-builder/src/
+liberty/
+output/
