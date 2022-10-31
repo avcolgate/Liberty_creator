@@ -1,4 +1,8 @@
 
+set sta_path /home/avcolgate/OpenSTA/app/sta
+
+set builder_path tcl-builder/main.py
+
 set design_name lib_sample
 
 set clocks {CLK}

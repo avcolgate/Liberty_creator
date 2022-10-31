@@ -7,26 +7,26 @@ exec mkdir -p $tcl_dir
 
 proc multi_launch {} {
     source config.tcl
-    set transitions [exec python3 tcl-builder/main.py ${verilog_file} ${netlist_file} ${clocks} ${core_lib} ${libs} ${tcl_dir} ${output_dir}]
+    set transitions [exec python3 $builder_path ${verilog_file} ${netlist_file} ${clocks} ${core_lib} ${libs} ${tcl_dir} ${output_dir}]
     puts $transitions
     set file [glob ${tcl_dir}/*.tcl ]
     
 
     foreach trans $transitions {
-        set fd [open $file r]
-        set newfd [open $file.temp w]
+        set template_tcl [open $file r]
+        set exec_tcl [open $file.$trans w]
 
-        while {[gets $fd line] >= 0} {
+        while {[gets $template_tcl line] >= 0} {
             set newline [string map [list "temp" $trans] $line]
-            puts $newfd $newline
+            puts $exec_tcl $newline
         }
         
-        close $newfd
-        close $fd 
+        close $template_tcl 
+        close $exec_tcl
 
-        exec /home/avcolgate/OpenSTA/app/sta $file.temp
+        exec $sta_path $file.$trans
         puts "liberty ready: $trans" 
-        file delete $file.temp
+        file delete $file.$trans
          
     }
 
