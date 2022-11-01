@@ -7,7 +7,7 @@ exec mkdir -p $tcl_dir
 
 proc multi_launch {} {
     source config.tcl
-    set transitions [exec python3 $builder_path ${verilog_file} ${netlist_file} ${clocks} ${core_lib} ${libs} ${tcl_dir} ${output_dir}]
+    set transitions [exec python3 $script_path ${verilog_file} ${netlist_file} ${clocks} ${core_lib} ${libs} ${tcl_dir} ${output_dir}]
     puts $transitions
     set file [glob ${tcl_dir}/*.tcl ]
     
@@ -30,12 +30,12 @@ proc multi_launch {} {
          
     }
 
-    exec rm -rf $tcl_dir
-
+    
 }
 
 multi_launch
 
+exec rm -rf $tcl_dir
 
 
 exit

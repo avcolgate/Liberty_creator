@@ -1,6 +1,6 @@
 import sys
 import verilog_reader.inputs_parser as verilog_parser
-import tcl_builder.maker as tcl_maker
+from tcl_maker.make_tcl import make_tcl
 from transition_getter.get_transition import get_net_transition
 
 # print(sys.argv)
@@ -22,4 +22,4 @@ transitions = get_net_transition(core_lib) #TODO: fix dir -> single file
 for i in transitions:  # вывести в другой файл
     print(i)
 
-tcl_maker.make_tcl(design_name, inputs, clock_names, transitions, lib_arr, tcl_dir, lib_dir, netlist_path)
+make_tcl(design_name, inputs, clock_names, transitions, lib_arr, tcl_dir, lib_dir, netlist_path)
