@@ -7,19 +7,18 @@ from transition_getter.get_transition import get_net_transition
 
 verilog_path = sys.argv[1]
 netlist_path = sys.argv[2]
-clock_names = sys.argv[3]
-core_lib = sys.argv[4]
-lib_arr = sys.argv[5]
-tcl_dir  = sys.argv[6]
-lib_dir = sys.argv[7]
+liberty_path = sys.argv[3]
+clock_names = sys.argv[4]
+tcl_dir  = sys.argv[5]
+lib_dir = sys.argv[6]
 
 design_name, inputs = verilog_parser.get_module_inputs(verilog_path)
 
 # transitions = [0.0100, 0.0282, 0.0794, 0.2236, 0.6300, 0.7748, 5.0000]
 
-transitions = get_net_transition(core_lib) #TODO: fix dir -> single file
+transitions = get_net_transition(liberty_path) 
 
-for i in transitions:  # вывести в другой файл
+for i in transitions:  #TODO вывести в другой файл
     print(i)
 
-make_tcl(design_name, inputs, clock_names, transitions, lib_arr, tcl_dir, lib_dir, netlist_path)
+make_tcl(design_name, inputs, clock_names, transitions, liberty_path, tcl_dir, lib_dir, netlist_path)

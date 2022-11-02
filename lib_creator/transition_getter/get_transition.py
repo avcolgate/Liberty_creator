@@ -1,18 +1,27 @@
 import sys
-from logic import Liberty
-import copy
 
 file_path = sys.argv[1]
 
 def get_net_transition(file_path):
-    lib = []
-    tran_arr = []
-    index_1 = ''
-    lib = copy.deepcopy(Liberty.load(file_path))
+    temp = []
+    index_arr = []  
+    trans_line = ''
 
-    index_1 = lib.lu_table_template['delay_cell'].index_1  # type: ignore
+    f = open(file_path, 'r')
+    for line in f:
+        if 'index_1' in line:
+                trans_line = line
+                break
 
-    for tran in index_1.split(','):
-        tran_arr.append(float(tran))
+    lb = '("'
+    rb = '")'
 
-    return tran_arr
+    trans_line = trans_line[trans_line.find(lb)+len(lb):trans_line.find(rb)]
+
+    trans_line = trans_line.replace(' ', '').split(',')
+
+    for ind in trans_line:
+        temp = float(ind)
+        index_arr.append(temp)
+
+    return index_arr

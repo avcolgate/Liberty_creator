@@ -2,12 +2,14 @@
 
 source config.tcl
 
+exec rm -rf $output_dir
+
 exec mkdir -p $output_dir
 exec mkdir -p $tcl_dir
 
 proc multi_launch {} {
     source config.tcl
-    set transitions [exec python3 $script_path ${verilog_file} ${netlist_file} ${clocks} ${core_lib} ${libs} ${tcl_dir} ${output_dir}]
+    set transitions [exec python3 $script_path ${verilog_file} ${netlist_file} ${liberty_path} ${clocks} ${tcl_dir} ${output_dir}]
     puts $transitions
     set file [glob ${tcl_dir}/*.tcl ]
     
@@ -27,10 +29,7 @@ proc multi_launch {} {
         exec $sta_path $file.$trans
         puts "liberty ready: $trans" 
         file delete $file.$trans
-         
     }
-
-    
 }
 
 multi_launch
