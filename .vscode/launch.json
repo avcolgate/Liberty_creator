@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["/home/avcolgate/Liberty_creator/liberty/nom_1.65V_25C/CORELIB8DLL.lib"]
+            "args": ["/home/avcolgate/Liberty_creator/liberty/sky130_fd_sc_hd__ss_n40C_1v60_ccsnoise.lib"]
         }
     ]
 }

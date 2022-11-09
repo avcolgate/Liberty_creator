@@ -1,7 +1,8 @@
 
 set sta_path /home/avcolgate/OpenSTA/app/sta
 set script_path lib_creator/main.py
-set liberty_path liberty/nom_1.65V_25C/CORELIB8DLL.lib
+# set liberty_path liberty/nom_1.65V_25C/CORELIB8DLL.lib
+set liberty_path liberty/sky130_fd_sc_hd__ff_n40C_1v95_ccsnoise.lib
 
 set design_name lib_sample
 set clocks {CLK}

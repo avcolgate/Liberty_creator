@@ -26,7 +26,7 @@ def get_net_transition(file_path):
             if '}' in line:
                 is_template_section = False
                 template_list.append(template)
-        if 'cell(' in line:                      # temp!
+        if 'cell(' in line.replace(' ', ''):                      # temp!
             break
 
     # filling name, variables, indices of template
@@ -34,21 +34,26 @@ def get_net_transition(file_path):
         for line in templ.body:
             if 'lu_table_template' in line:
                 line = line[line.find('(')+1:line.find(')')].strip()
+                line = line.replace('"', '')
                 templ.name = line
             if 'variable' in line:
                 line = line[line.find(':')+1:line.find(';')].strip()
+                line = line.replace('"', '')
                 templ.variable.append(line)
             if 'index' in line:
                 line = line[line.find(lb_index)+len(lb_index):line.find(rb_index)].strip()
+                line = line.replace('"', '')
                 templ.index.append(line)
 
     # searching for right template
     for templ in template_list:
         if 'input_net_transition' in templ.variable and \
-           'total_output_net_capacitance' in templ.variable:
+           'total_output_net_capacitance' in templ.variable and \
+            templ.index:
             for var_num, var in enumerate(templ.variable):
                 if var == 'input_net_transition':
                     index_num = var_num
+                    break
             index_line = templ.index[index_num]
             break
 
@@ -62,4 +67,5 @@ def get_net_transition(file_path):
 
     return index_arr
 
-# print(get_net_transition(file_path))
+if __name__ == "__main__":
+    print(get_net_transition(file_path))
