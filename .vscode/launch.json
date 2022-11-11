@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["/home/avcolgate/Liberty_creator/liberty/sky130_fd_sc_hd__ss_n40C_1v60_ccsnoise.lib"]
+            "args": ["/home/avcolgate/Liberty_creator/liberty/sky130_testing.lib"]
         }
     ]
 }

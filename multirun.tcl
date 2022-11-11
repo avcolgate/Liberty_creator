@@ -9,8 +9,16 @@ exec mkdir -p $tcl_dir
 
 proc multi_launch {} {
     source config.tcl
-    set transitions [exec python3 $script_path ${verilog_file} ${netlist_file} ${liberty_path} ${clocks} ${tcl_dir} ${output_dir}]
+
+    # list of string
+    set transitions [split [exec python3 $trans_script_path ${liberty_path}] ,]
     puts $transitions
+    # сделать проверка на непустую строку!!!
+
+    set out [exec python3 $tcl_script_path ${verilog_file} ${netlist_file} ${liberty_path} ${clocks} ${tcl_dir} ${output_dir} ${transitions}]
+    # puts $out
+
+
     set file [glob ${tcl_dir}/*.tcl ]
     
 

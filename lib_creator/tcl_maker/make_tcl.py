@@ -1,10 +1,16 @@
 
 def make_tcl(design_name, inputs, clock_names_arr, transitions, lib_arr, tcl_dir, output_dir, netlist_path):
-    
+
+    max_val = -1.0
+    for ind in transitions.split():
+        if float(ind) > max_val:
+            max_val = float(ind)
+
+
     clock_names_arr = clock_names_arr.split()
     lib_arr = lib_arr.split(',')
     ports_arr = []
-    clock_period = max(transitions)*4
+    clock_period = max_val * 4
 
     for input in inputs:
         if str(input) not in clock_names_arr:
