@@ -49,23 +49,18 @@ def get_net_transition(file_path):
     for templ in template_list:
         if 'input_net_transition' in templ.variable and \
            'total_output_net_capacitance' in templ.variable and \
-            templ.index:
+            len(templ.index) == len(templ.variable) == 2:
             for var_num, var in enumerate(templ.variable):
                 if var == 'input_net_transition':
                     index_num = var_num
                     break
+
             index_line = templ.index[index_num]
+            index_line = index_line.replace(' ', '') #.split(',')
+            # for ind in index_line:
+            #     temp = float(ind)
+            #     index_arr.append(temp)
+
             break
 
-    index_line = index_line.replace(' ', '').split(',')
-
-    for ind in index_line:
-        temp = float(ind)
-        index_arr.append(temp)
-
-    # print(index_arr)
-
-    return index_arr
-
-if __name__ == "__main__":
-    print(get_net_transition(file_path))
+    return index_line
