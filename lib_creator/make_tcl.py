@@ -1,6 +1,6 @@
 import sys
-import verilog_reader.inputs_parser as verilog_parser
-from tcl_maker.make_tcl import make_tcl
+import verilog_reader.inputs_func as verilog_parser
+from tcl_maker.tcl_func import make_tcl
 
 # print(sys.argv)
 

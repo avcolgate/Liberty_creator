@@ -12,6 +12,7 @@ def get_net_transition(file_path):
     is_template_section = False
     lb_index = '("'
     rb_index = '")'
+    index_line = ''
 
 
     f = open(file_path, 'r')

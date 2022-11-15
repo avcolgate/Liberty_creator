@@ -1,7 +1,7 @@
 
 set sta_path /home/avcolgate/OpenSTA/app/sta
-set tcl_script_path lib_creator/main_tcl.py
-set trans_script_path lib_creator/main_transition.py
+set make_tcl_path lib_creator/make_tcl.py
+set get_trans_path lib_creator/get_trans.py
 
 set liberty_path liberty/nom_1.65V_25C/CORELIB8DLL.lib
 # set liberty_path liberty/sky130_fd_sc_hd__ss_n40C_1v60_ccsnoise.lib

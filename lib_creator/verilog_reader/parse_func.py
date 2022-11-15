@@ -1,7 +1,7 @@
 import re
 
 from verilog_reader.classes import Line, Module, Module_for_search, Pin
-from verilog_reader.func import is_good_name, skip_comment
+from verilog_reader.process_func import is_good_name, skip_comment
 
 def parse_body(temp_module):
     module_name = temp_module.name
