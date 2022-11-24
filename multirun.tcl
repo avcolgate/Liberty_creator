@@ -39,6 +39,10 @@ proc multi_launch {} {
         puts "liberty ready: $trans" 
         file delete $file.$trans
     }
+
+    exec python3 $merge_lib_path ${output_dir}
+    puts "full liberty ready!" 
+
 }
 
 multi_launch

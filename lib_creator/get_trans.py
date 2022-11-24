@@ -1,5 +1,5 @@
 import sys
-from transition_getter.trans_func import get_net_transition
+from transition_getter.main import get_net_transition
 
 liberty_path = sys.argv[1]
 

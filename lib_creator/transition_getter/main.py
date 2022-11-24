@@ -46,7 +46,7 @@ def get_net_transition(file_path):
                 line = line.replace('"', '')
                 templ.index.append(line)
 
-    # searching for right template
+    # searching for right template (first one)
     for templ in template_list:
         if 'input_net_transition' in templ.variable and \
            'total_output_net_capacitance' in templ.variable and \
