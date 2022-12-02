@@ -1,9 +1,9 @@
 import sys
-from datetime import datetime
-
 
 from verilog_reader.parse_func import get_top_module, parse_body
 from verilog_reader.process_func import define_init_data
+# from parse_func import get_top_module, parse_body
+# from process_func import define_init_data
 
 #*         0    1     2
 #* AUTO:  PATH
@@ -25,10 +25,6 @@ def get_module_inputs(init_data = []):
 
         module = parse_body(temp_module)
 
-        time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-        # out_path = 'home/avcolgate/TCL-maker/runs/verilog/' + module.name + '-' + time + '.txt'
-        # log_path = 'home/avcolgate/TCL-maker/logs/' + module.name + '-' + time + '.log'
-
         # log_file = open(log_path, 'w')
         # module.print(log_file)
 
@@ -41,5 +37,5 @@ def get_module_inputs(init_data = []):
     return module.name, input_arr
 
 
-# if __name__ == "__main__":
-#     get_module_inputs(sys.argv)
+if __name__ == "__main__":
+    print(get_module_inputs("v/spm.v"))

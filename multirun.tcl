@@ -10,8 +10,8 @@ exec mkdir -p $tcl_dir
 proc multi_launch {} {
     source config.tcl
 
+    # check if files are missing
     set file_list [list ${verilog_file} ${netlist_file} ${liberty_path} ${sta_path} ${make_tcl_path} ${get_trans_path} ${merge_lib_path}]
-
     foreach existing_file $file_list {
         if {[file exists ${existing_file}] eq 0} {
             puts "fatal: no such file $existing_file"
@@ -21,7 +21,7 @@ proc multi_launch {} {
 
     # list of string
     set transitions [split [exec python3 $get_trans_path ${liberty_path}] ,]
-
+    
     if {$transitions eq ""} {
         puts "fatal: no transitions found in liberty!"
         exit

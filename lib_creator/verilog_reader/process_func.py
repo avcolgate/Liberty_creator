@@ -1,6 +1,8 @@
 
 import os
+
 from verilog_reader.keywords import keyword_list
+# from keywords import keyword_list
 
 def define_init_data(init_data):
     # print(init_data)

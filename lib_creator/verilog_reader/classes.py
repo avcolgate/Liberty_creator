@@ -1,4 +1,5 @@
 
+# from process_func import skip_comment
 from verilog_reader.process_func import skip_comment
 
 
@@ -59,17 +60,17 @@ class Line:
         self.content = skip_comment(self.content)
         return True
 
-    def is_pin_section(self):
+    def is_pin_line(self):
         if 'input' in self.content or 'output' in self.content or 'inout' in self.content:
             return True
         return False
 
-    def is_endmodule_section(self):
+    def is_endmodule_line(self):
         if 'endmodule' in self.content:
             return True
         return False
 
-    def is_module_section(self):
+    def is_module_line(self):
         if 'module' in self.content and not 'endmodule' in self.content:
             return True
         return False

@@ -2,6 +2,8 @@ import re
 
 from verilog_reader.classes import Line, Module, Module_for_search, Pin
 from verilog_reader.process_func import is_good_name, skip_comment
+# from classes import Line, Module, Module_for_search, Pin
+# from process_func import is_good_name, skip_comment
 
 def parse_body(temp_module):
     module_name = temp_module.name
@@ -14,20 +16,20 @@ def parse_body(temp_module):
     for line_num, curr_line in enumerate(module_body_arr): # TODO сделать отдельную функцию
         line = Line(curr_line)
         
-        if not is_module_section and line.is_module_section():
+        if not is_module_section and line.is_module_line():
             # print(line.content)
             module.append_name(module_name)
             is_module_section = True
             continue
 
         if is_module_section:
-            if line.is_pin_section():
+            if line.is_pin_line():
                 # print(line.content)
                 pin_arr = parse_section_pins(line, module.pins, line_num + module_offset)
                 for pin in pin_arr:
                     module.append_pin(pin)
                 continue
-            if line.is_endmodule_section():
+            if line.is_endmodule_line():
                 # print(line.content)
                 is_module_section = False
                 break
@@ -52,12 +54,17 @@ def parse_section_pins(line, pin_list, line_num):
 
     pin_direction_name = re.sub(r'\[[^()]*\]', '', temp) # substracting size
 
-    pin_direction = pin_direction_name[:pin_direction_name.find(' ')] # input | output | inout
+    if 'input' in pin_direction_name:
+        pin_direction = 'input'
+    if 'output' in pin_direction_name:
+        pin_direction = 'output'
+    if 'inout' in pin_direction_name:
+        pin_direction = 'inout'
+
+    temp_name = pin_direction_name.replace(pin_direction, '').strip()
 
     pin_size = temp[temp.find('['):temp.find(']') + 1] # [...]
     
-    temp_name = pin_direction_name.replace(pin_direction, '').strip()
-
     temp_name = temp_name.replace('reg', '').replace('wire', '').replace('tri', '').replace('integer', '')
     temp_name = temp_name.strip()
 
@@ -87,7 +94,6 @@ def parse_section_pins(line, pin_list, line_num):
 
     # * parametric size
     if pin_size:
-
         pin_wire_type = 'bus'
         
     # * simple size (=1)
@@ -109,11 +115,9 @@ def parse_section_pins(line, pin_list, line_num):
 # two or more modules modules have the maximum number of attachments
 def get_top_module(lines, specified_name = ''):
     module_list = []
-    top_module = Module()
     found_specified = False
 
     # collecting module names and it's content
-    module_fs = Module_for_search() #TODO можно без создания объекта?
     temp_name = ''
     temp_line = ''
     start_line = 0
@@ -131,7 +135,6 @@ def get_top_module(lines, specified_name = ''):
         if not is_module_section:
             if ('module' in line or 'macromodule' in line) \
             and not 'endmodule' in line:
-
                 module_fs = Module_for_search()
                 temp_name = ''
                 start_line = line_num
@@ -166,10 +169,14 @@ def get_top_module(lines, specified_name = ''):
 
             is_module_section = False
             module_list.append(module_fs)
+            del module_fs
+    
     
     if not module_list:
         print('fatal: no modules in file\n')
         exit()
+
+    top_module = Module()
 
     #* MANUAL mode: return module with specified name
     if specified_name:
@@ -184,10 +191,12 @@ def get_top_module(lines, specified_name = ''):
             exit() 
 
     #* AUTOMATIC mode: define top module
-    # searching attachments in each module
+    # finding attachments and its number in each module
     for mod in module_list:
         for submod in module_list:
-            if submod.name in mod.text and submod.name != mod.name and submod.name not in mod.attachments:
+            if submod.name in mod.text and \
+                submod.name not in mod.attachments and \
+                submod.name not in mod.name:
                 mod.attachments.append(submod.name)
                 mod.attach_num += 1
                 submod.called = True
@@ -202,7 +211,7 @@ def get_top_module(lines, specified_name = ''):
                 max_att = mod.attach_num
 
     if count_non_callable > 1:
-        print('fatal: there are two or more non-callable modules\n')
+        print('fatal: top module is implicitly specified (there are two or more non-callable modules)\n')
         exit()
 
 

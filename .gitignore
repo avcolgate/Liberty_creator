@@ -5,3 +5,4 @@ liberty/
 output/
 .tcl/
 .vscode/
+lib_creator/verilog_reader/v/
