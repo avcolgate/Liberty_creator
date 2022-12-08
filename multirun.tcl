@@ -47,7 +47,7 @@ proc multi_launch {} {
             set exec_tcl [open $exec_path w]
 
             while {[gets $template_tcl line] >= 0} {
-                set newline [string map [list "tmp_clk" $clk_trans "tmp_pin" $pin_trans] $line]
+                set newline [string map [list "%clk%" $clk_trans "%pin%" $pin_trans] $line]
                 puts $exec_tcl $newline
             }
 

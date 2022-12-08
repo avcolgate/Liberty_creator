@@ -26,8 +26,8 @@ def make_tcl(design_name, inputs, clock_names_arr, transitions, lib_arr, tcl_dir
     str_ports = ' '.join(ports_arr)
 
 
-    clk_tran = 'tmp_clk'
-    pin_tran = 'tmp_pin'
+    clk_tran = '%clk%'
+    pin_tran = '%pin%'
     
     output_tcl = open(tcl_dir + '/make_lib_temp.tcl', 'w')
 
