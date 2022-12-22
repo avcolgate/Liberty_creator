@@ -1,5 +1,5 @@
 
-def make_tcl(design_name, inputs, clock_names_arr, transitions, lib_arr, tcl_dir, output_dir, netlist_path):
+def make_template(design_name, inputs, clock_names_arr, transitions, lib_arr, tcl_dir, output_dir, netlist_path):
 
     max_val = -1.0
     for ind in transitions.split():

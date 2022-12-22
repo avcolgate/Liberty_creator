@@ -1,6 +1,6 @@
 import sys
-from verilog_reader.main import get_module_inputs
-import tcl_maker.main as tcl_maker
+from inputs.main import get_module_inputs
+from template.main import make_template
 
 verilog_path = sys.argv[1]
 netlist_path = sys.argv[2]
@@ -12,4 +12,4 @@ transitions = sys.argv[7]
 
 design_name, inputs = get_module_inputs(verilog_path)
 
-tcl_maker.make_tcl(design_name, inputs, clock_names, transitions, liberty_path, tcl_dir, out_dir, netlist_path)
+make_template(design_name, inputs, clock_names, transitions, liberty_path, tcl_dir, out_dir, netlist_path)

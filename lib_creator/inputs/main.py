@@ -1,7 +1,7 @@
 import sys
 
-from verilog_reader.parse_func import get_top_module, parse_body
-from verilog_reader.process_func import define_init_data
+from inputs.parse_func import get_top_module, parse_body
+from inputs.process_func import define_init_data
 # from parse_func import get_top_module, parse_body
 # from process_func import define_init_data
 

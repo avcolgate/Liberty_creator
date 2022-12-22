@@ -1,6 +1,6 @@
 
 # from process_func import skip_comment
-from verilog_reader.process_func import skip_comment
+from inputs.process_func import skip_comment
 
 
 class Module:

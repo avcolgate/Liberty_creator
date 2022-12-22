@@ -1,5 +1,5 @@
 import sys
-from leakage_getter.main import get_leakage
+from leakage.main import get_leakage
 
 power_path = sys.argv[1]
 

@@ -1,7 +1,11 @@
 import sys
 
-from transition_getter.classes import Template
-# from classes import Template
+class Template:
+    def __init__(self, name=''):
+        self.name = name
+        self.body = []
+        self.variable = []
+        self.index = []
 
 file_path = sys.argv[1]
 
