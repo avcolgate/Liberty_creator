@@ -11,7 +11,8 @@ proc multi_launch {} {
     source config.tcl
 
     # check if files are missing
-    set file_list [list ${verilog_file} ${netlist_file} ${liberty_path} ${sta_path} ${make_tcl_path} ${get_trans_path} ${merge_lib_path}]
+    #TODO: add ${merge_lib_path}
+    set file_list [list ${verilog_file} ${netlist_file} ${lef_path} ${liberty_path} ${sta_path} ${make_tcl_path} ${get_trans_path} ${get_leakage_path} ${get_size_path} ]
     foreach existing_file $file_list {
         if {[file exists ${existing_file}] eq 0} {
             puts "fatal: no such file $existing_file"
@@ -21,16 +22,14 @@ proc multi_launch {} {
 
     # list of string
     set transitions [split [exec python3 $get_trans_path ${liberty_path}] ,]
-    
     if {$transitions eq ""} {
         puts "fatal: no transitions found in liberty!"
         exit
     }
 
     set out [exec python3 $make_tcl_path ${verilog_file} ${netlist_file} ${liberty_path} ${clocks} ${tcl_dir} ${output_dir} ${transitions}]
-    # puts $out
-
     set template_path [glob ${tcl_dir}/*.tcl ]
+
 
     if {${clocks} eq {} } {
         set clock_transitions {"NaN"}
@@ -60,6 +59,12 @@ proc multi_launch {} {
             file delete $exec_path
         }
     }
+
+    set design_size [exec python3 $get_size_path ${lef_path}]
+    puts "size = $design_size" 
+
+    set design_leakage [exec python3 $get_leakage_path output/${design_name}_power.txt]
+    puts "leakage = $design_leakage"
 
     # exec python3 $merge_lib_path ${output_dir}
     # puts "full liberty ready!"

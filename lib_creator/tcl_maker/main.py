@@ -41,7 +41,9 @@ def make_tcl(design_name, inputs, clock_names_arr, transitions, lib_arr, tcl_dir
     for clk_num, clock in enumerate(clock_names_arr):
         output_tcl.write('create_clock -name %s -period %f [get_ports {%s}]\n' % (clock, clock_period, clock))
 
-    output_tcl.write('set_input_transition %s [get_ports {%s}]\n\n' % (pin_tran, str_ports))
+    output_tcl.write('set_input_transition %s [get_ports {%s}]\n' % (pin_tran, str_ports))
+
+    output_tcl.write('report_power > "%s/%s_power.txt"\n\n' % (output_dir, design_name))
 
     if clock_names_arr:
         output_tcl.write('set_clock_transition %s [get_clocks {%s}]\n' % (clk_tran, str_clocks))

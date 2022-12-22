@@ -1,8 +1,8 @@
 import sys
-import transition_getter.main as transition_getter
+from transition_getter.main import get_net_transition
 
 liberty_path = sys.argv[1]
 
-transitions = transition_getter.get_net_transition(liberty_path) 
+transitions = get_net_transition(liberty_path) 
 
 print(transitions)
