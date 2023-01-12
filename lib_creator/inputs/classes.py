@@ -1,30 +1,13 @@
 
-# from process_func import skip_comment
-from inputs.process_func import skip_comment
+from __future__ import annotations
 
 
 class Module:
-    def __init__(self, name=''):
+    def __init__(self, name: str='') -> None:
         self.name = name
-        self.pins = []
+        self.pins = list()
 
-    def print(self, file):
-        if self.name == '':
-            print('fatal: empty module\n')
-            exit()
-
-        file.write('Name: %s\n' % self.name)
-
-        file.write("Pins [%i]:\n" % len(self.pins))
-        for pin in self.pins:
-            for dir in ['input', 'output', 'inout']:
-                if dir == pin.direction:
-                    file.write('%7s %12s %6s\n' % (pin.direction, pin.name, pin.wire_type))
-
-    def append_name(self, name):
-        self.name = name
-
-    def append_pin(self, pin):
+    def append_pin(self, pin: Pin) -> None:
         if pin.direction == 'input' or \
             pin.direction == 'output' or \
             pin.direction == 'inout':
@@ -34,8 +17,8 @@ class Module:
             exit()
 
 
-class Module_for_search():
-    def __init__(self, name=''):
+class Module_for_search:
+    def __init__(self, name: str='') -> None:
         self.name = name
         self.attachments = []
         self.called = False
@@ -46,31 +29,27 @@ class Module_for_search():
 
 
 class Pin:
-    def __init__(self, name='', direction='', wire_type='wire'):
+    def __init__(self, name: str='', direction: str='', wire_type: str='wire') -> None:
         self.name = name
         self.direction = direction
         self.wire_type = wire_type
 
 
 class Line:
-    def __init__(self, content=''):
+    def __init__(self, content: str='') -> None:
         self.content = content
-    
-    def erase_comment(self):
-        self.content = skip_comment(self.content)
-        return True
 
-    def is_pin_line(self):
+    def is_pin_line(self) -> bool:
         if 'input' in self.content or 'output' in self.content or 'inout' in self.content:
             return True
         return False
 
-    def is_endmodule_line(self):
+    def is_endmodule_line(self) -> bool:
         if 'endmodule' in self.content:
             return True
         return False
 
-    def is_module_line(self):
+    def is_module_line(self) -> bool:
         if 'module' in self.content and not 'endmodule' in self.content:
             return True
         return False

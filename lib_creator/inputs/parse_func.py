@@ -5,7 +5,7 @@ from inputs.process_func import is_good_name, skip_comment
 # from classes import Line, Module, Module_for_search, Pin
 # from process_func import is_good_name, skip_comment
 
-def parse_body(temp_module):
+def parse_body(temp_module: Module) -> Module:
     module_name = temp_module.name
     module_body_arr = temp_module.text_arr
     module_offset = temp_module.offset + 1
@@ -18,7 +18,7 @@ def parse_body(temp_module):
         
         if not is_module_section and line.is_module_line():
             # print(line.content)
-            module.append_name(module_name)
+            module.name = module_name
             is_module_section = True
             continue
 
@@ -45,7 +45,7 @@ def parse_body(temp_module):
 # float pin size
 # * warnings:
 # equal limits in pin size
-def parse_section_pins(line, pin_list, line_num):
+def parse_section_pins(line: str, pin_list: list, line_num: int) -> list:
     pin_arr = []
     pin_direction = 'NaN'
     k = 1
@@ -113,7 +113,7 @@ def parse_section_pins(line, pin_list, line_num):
 # specified module not found
 # two or more non-callable modules
 # two or more modules modules have the maximum number of attachments
-def get_top_module(lines, specified_name = ''):
+def get_top_module(lines: list, specified_name: str='') -> Module:
     module_list = []
     found_specified = False
 
@@ -125,16 +125,16 @@ def get_top_module(lines, specified_name = ''):
 
     # collecting bodies of each module
     for line_num, line in enumerate(lines):
-        
         line = skip_comment(line)
         line = line.replace('\t', ' ')
+        
         if line == ' ' or '`define' in line:
             continue
 
+        line = Line(line)
         # outside module section -- searching start line of a module
         if not is_module_section:
-            if ('module' in line or 'macromodule' in line) \
-            and not 'endmodule' in line:
+            if line.is_module_line():
                 module_fs = Module_for_search()
                 temp_name = ''
                 start_line = line_num
@@ -145,7 +145,7 @@ def get_top_module(lines, specified_name = ''):
 
         # inside module section -- adding each line
         if is_module_section:
-            temp_line = line.strip()
+            temp_line = line.content.strip()
             module_fs.text += temp_line + ' '
             module_fs.text_arr.append(temp_line)
 
@@ -161,7 +161,7 @@ def get_top_module(lines, specified_name = ''):
                 module_fs.name = temp_name
                 temp_name = ''
 
-        if is_module_section and 'endmodule' in line:
+        if is_module_section and line.is_endmodule_line():
             for mod in module_list:
                 if mod.name == module_fs.name:
                     print("fatal: duplicate module name '%s', line %i\n" % (module_fs.name, start_line + 1))

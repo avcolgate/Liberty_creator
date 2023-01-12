@@ -1,4 +1,3 @@
-import sys
 
 from inputs.parse_func import get_top_module, parse_body
 from inputs.process_func import define_init_data
@@ -9,7 +8,7 @@ from inputs.process_func import define_init_data
 #* AUTO:  PATH
 #* MANUAL PATH -m MODULE_NAME
 
-def get_module_inputs(init_data = []):
+def get_module_inputs(init_data: list = []) -> tuple:
     init_data = init_data.split()
     
     # print('init_data for get_module_inputs(): %s\n' %init_data)
