@@ -11,8 +11,11 @@ proc multi_launch {} {
     source config.tcl
 
     # check if files are missing
-    #TODO: add ${merge_lib_path}
-    set file_list [list ${verilog_file} ${netlist_file} ${lef_path} ${liberty_path} ${sta_path} ${make_template_path} ${get_trans_path} ${get_leakage_path} ${get_size_path} ]
+    # TODO: add ${merge_lib_path}
+    set file_list [list ${verilog_file} ${netlist_file} ${lef_path} ${liberty_path} \
+                        ${sta_path} ${make_template_path} ${get_trans_path} \
+                        ${get_leakage_path} ${get_size_path} ${get_inputs_path} ${get_module_name_path}]
+
     foreach existing_file $file_list {
         if {[file exists ${existing_file}] eq 0} {
             puts "fatal: no such file $existing_file"
@@ -27,7 +30,12 @@ proc multi_launch {} {
         exit
     }
 
-    set out [exec python3 $make_template_path ${verilog_file} ${netlist_file} ${liberty_path} ${clocks} ${tcl_dir} ${output_dir} ${transitions}]
+    set module_name [exec python3 $get_module_name_path ${verilog_file}]
+
+    set inputs [exec python3 $get_inputs_path ${verilog_file}]
+
+    set out [exec python3 $make_template_path ${module_name} ${inputs} ${netlist_file} \
+                          ${liberty_path} ${clocks} ${tcl_dir} ${output_dir} ${transitions}]
     set template_path [glob ${tcl_dir}/*.tcl ]
 
 

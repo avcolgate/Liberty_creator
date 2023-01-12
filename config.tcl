@@ -5,10 +5,13 @@ set get_trans_path lib_creator/get_trans.py
 # set merge_lib_path lib_creator/merge_lib.py
 set get_leakage_path lib_creator/get_leakage.py
 set get_size_path lib_creator/get_size.py
+set get_inputs_path lib_creator/get_inputs.py
+set get_module_name_path lib_creator/get_module_name.py
 
 set liberty_path liberty/nom_1.65V_25C/CORELIB8DLL.lib
 
 set design_name lib_sample
+#TODO попробовать убрать
 
 # case-sensitive (set empty if no clocks in design)
 set clocks {CLK}
