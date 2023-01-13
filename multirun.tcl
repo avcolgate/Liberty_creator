@@ -71,7 +71,7 @@ proc multi_launch {} {
     set design_size [exec python3 $get_size_path ${lef_path}]
     puts "size = $design_size" 
 
-    set design_leakage [exec python3 $get_leakage_path output/${design_name}_power.txt]
+    set design_leakage [exec python3 $get_leakage_path tests/data/results/${design_name}/${design_name}_power.txt]
     puts "leakage = $design_leakage"
 
     # exec python3 $merge_lib_path ${output_dir}

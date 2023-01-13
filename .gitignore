@@ -1,8 +1,5 @@
 __pycache__/
 .idea/
-lib_creator/logic/
-liberty/
-output/
 .tcl/
 .vscode/
-lib_creator/verilog_reader/v/
+tests/data/source/liberty/
