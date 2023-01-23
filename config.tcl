@@ -2,7 +2,7 @@
 set sta_path /home/avcolgate/OpenSTA/app/sta
 set make_template_path lib_creator/make_template.py
 set get_trans_path lib_creator/get_trans.py
-# set merge_lib_path lib_creator/merge_lib.py
+set merge_lib_path lib_merger/merge_lib.py
 set get_leakage_path lib_creator/get_leakage.py
 set get_size_path lib_creator/get_size.py
 set get_inputs_path lib_creator/get_inputs.py

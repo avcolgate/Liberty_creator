@@ -16,9 +16,9 @@ proc multi_launch {} {
                         ${sta_path} ${make_template_path} ${get_trans_path} \
                         ${get_leakage_path} ${get_size_path} ${get_inputs_path} ${get_module_name_path}]
 
-    foreach existing_file $file_list {
-        if {[file exists ${existing_file}] eq 0} {
-            puts "fatal: no such file $existing_file"
+    foreach file $file_list {
+        if {[file exists ${file}] eq 0} {
+            puts "fatal: no such file $file"
             exit
         }
     }
@@ -74,7 +74,7 @@ proc multi_launch {} {
     set design_leakage [exec python3 $get_leakage_path tests/data/results/${design_name}/${design_name}_power.txt]
     puts "leakage = $design_leakage"
 
-    # exec python3 $merge_lib_path ${output_dir}
+    exec python3 $merge_lib_path ${output_dir}
     # puts "full liberty ready!"
 
 }
