@@ -22,8 +22,9 @@ def make_template(design_name, inputs, clock_names_arr, transitions, lib_arr, tc
             exit()
 
 
-    str_clocks = ' '.join(clock_names_arr)
-    str_ports = ' '.join(ports_arr)
+    str_clocks = ''.join(clock_names_arr)
+    str_ports = ''.join(ports_arr)
+
 
 
     clk_tran = '%clk%'

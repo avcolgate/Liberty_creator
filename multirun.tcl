@@ -12,7 +12,8 @@ proc multi_launch {} {
 
     # check if files are missing
     # TODO: add ${merge_lib_path}
-    set file_list [list ${verilog_file} ${netlist_file} ${lef_path} ${liberty_path} \
+    # TODO: add LEF
+    set file_list [list ${verilog_file} ${netlist_file} ${liberty_path} \
                         ${sta_path} ${make_template_path} ${get_trans_path} \
                         ${get_leakage_path} ${get_size_path} ${get_inputs_path} ${get_module_name_path}]
 
@@ -68,11 +69,11 @@ proc multi_launch {} {
         }
     }
 
-    set design_size [exec python3 $get_size_path ${lef_path}]
-    puts "size = $design_size" 
+    # set design_size [exec python3 $get_size_path ${lef_path}]
+    # puts "size = $design_size" 
 
-    set design_leakage [exec python3 $get_leakage_path tests/data/results/${design_name}/${design_name}_power.txt]
-    puts "leakage = $design_leakage"
+    # set design_leakage [exec python3 $get_leakage_path tests/data/results/${design_name}/${design_name}_power.txt]
+    # puts "leakage = $design_leakage"
 
     # exec python3 $merge_lib_path ${output_dir}
     # puts "full liberty ready!"

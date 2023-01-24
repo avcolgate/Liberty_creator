@@ -9,6 +9,7 @@ set get_inputs_path lib_creator/get_inputs.py
 set get_module_name_path lib_creator/get_module_name.py
 
 set liberty_path tests/data/source/liberty/nom_1.65V_25C/CORELIB8DLL.lib
+# set liberty_path tests/data/source/liberty/sky130_fd_sc_hd__ss_n40C_1v60_ccsnoise.lib
 
 set design_name lib_sample
 #TODO попробовать убрать
@@ -21,4 +22,4 @@ set verilog_file tests/data/source/${design_name}/${design_name}.v
 set netlist_file tests/data/source/${design_name}/${design_name}_netlist_mikron.v
 
 set tcl_dir .tcl
-set output_dir tests/data/results/${design_name}/
+set output_dir tests/data/results/${design_name}
