@@ -11,7 +11,8 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["/home/avcolgate/Liberty_creator/liberty/sky130_testing.lib"]
+            "args": [],
+            "sudo": true
         }
     ]
 }

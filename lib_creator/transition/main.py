@@ -1,4 +1,4 @@
-import sys
+from typing import List
 
 class Template:
     def __init__(self, name=''):
@@ -7,9 +7,7 @@ class Template:
         self.variable = []
         self.index = []
 
-file_path = sys.argv[1]
-
-def get_net_transition(file_path):
+def get_net_transition(file_path: str) -> List[float]:
 
     index_arr = []
     template_list = []
@@ -61,11 +59,11 @@ def get_net_transition(file_path):
                     break
 
             index_line = templ.index[index_num]
-            index_line = index_line.replace(' ', '') #.split(',')
-            # for ind in index_line:
-            #     temp = float(ind)
-            #     index_arr.append(temp)
+            index_line = index_line.replace(' ', '').split(',')
+            for ind in index_line:
+                temp = float(ind)
+                index_arr.append(temp)
 
             break
 
-    return index_line
+    return index_arr

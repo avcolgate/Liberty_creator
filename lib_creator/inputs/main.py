@@ -1,15 +1,14 @@
 
-from inputs.parse_func import get_top_module, parse_body
-from inputs.process_func import define_init_data
-# from parse_func import get_top_module, parse_body
-# from process_func import define_init_data
-from inputs.classes import Module
+from lib_creator.inputs.parse_func import get_top_module, parse_body
+from lib_creator.inputs.process_func import define_init_data
+from lib_creator.inputs.classes import Module
+from typing import List
 
 #*         0    1     2
 #* AUTO:  PATH
 #* MANUAL PATH -m MODULE_NAME
 
-def get_module_inputs(init_data: list = []) -> tuple:
+def get_module_inputs(init_data: list = []) -> List[str]:
     init_data = init_data.split()
     
     # print('init_data for get_module_inputs(): %s\n' %init_data)
@@ -37,7 +36,7 @@ def get_module_inputs(init_data: list = []) -> tuple:
     return input_arr
 
 
-def get_module_name(init_data: list = []) -> tuple: #TODO: simplify !!!
+def get_module_name(init_data: list = []) -> str: #TODO: simplify !!!
     init_data = init_data.split()
     
     # print('init_data for get_module_inputs(): %s\n' %init_data)

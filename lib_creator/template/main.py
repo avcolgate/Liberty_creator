@@ -1,13 +1,22 @@
+from typing import List
 
-def make_template(design_name, inputs, clock_names_arr, transitions, lib_arr, tcl_dir, output_dir, netlist_path):
+def make_template(
+    design_name: str,
+    inputs: List[float],
+    clock_names_arr: List[str],
+    transitions: List[float],
+    lib_arr: List[str],
+    tcl_dir: str,
+    output_dir: str,
+    netlist_path: str,
+    temp_tcl_name :str
+    ) -> None:
 
     max_val = -1.0
-    for ind in transitions.split():
+    for ind in transitions:
         if float(ind) > max_val:
             max_val = float(ind)
 
-
-    clock_names_arr = clock_names_arr.split()
     lib_arr = lib_arr.split(',')
     ports_arr = []
     clock_period = max_val * 4
@@ -22,15 +31,13 @@ def make_template(design_name, inputs, clock_names_arr, transitions, lib_arr, tc
             exit()
 
 
-    str_clocks = ''.join(clock_names_arr)
-    str_ports = ''.join(ports_arr)
-
-
+    str_clocks = ' '.join(clock_names_arr)
+    str_ports = ' '.join(ports_arr)
 
     clk_tran = '%clk%'
     pin_tran = '%pin%'
     
-    output_tcl = open(tcl_dir + '/make_lib_temp.tcl', 'w')
+    output_tcl = open(tcl_dir + '/' +temp_tcl_name + '.tcl', 'w')
 
     for lib_name in lib_arr:
         output_tcl.write('read_liberty %s\n' % lib_name.strip())

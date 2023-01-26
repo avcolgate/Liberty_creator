@@ -6,9 +6,7 @@ class Macro:
         self.name = name
         self.size = {0, 0}
 
-file_path = sys.argv[1]
-
-def get_size(file_path):
+def get_size(file_path: str) -> float:
     with open(file=file_path, mode='rt') as file:
         lines = file.read().split('\n')
         lines = list(filter(None, lines))  # deleting '' lines
