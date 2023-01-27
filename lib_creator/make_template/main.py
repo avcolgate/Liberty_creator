@@ -8,8 +8,7 @@ def make_template(
     lib_arr: List[str],
     tcl_dir: str,
     output_dir: str,
-    netlist_path: str,
-    temp_tcl_name :str
+    netlist_path: str
     ) -> None:
 
     max_val = -1.0
@@ -37,7 +36,7 @@ def make_template(
     clk_tran = '%clk%'
     pin_tran = '%pin%'
     
-    output_tcl = open(tcl_dir + '/' +temp_tcl_name + '.tcl', 'w')
+    output_tcl = open(tcl_dir + '/temp.tcl', 'w')
 
     for lib_name in lib_arr:
         output_tcl.write('read_liberty %s\n' % lib_name.strip())

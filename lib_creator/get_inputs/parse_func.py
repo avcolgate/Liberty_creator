@@ -1,7 +1,7 @@
 import re
 
-from lib_creator.inputs.classes import Line, Module, Module_for_search, Pin
-from lib_creator.inputs.process_func import is_good_name, skip_comment
+from lib_creator.get_inputs.classes import Line, Module, Module_for_search, Pin
+from lib_creator.get_inputs.process_func import is_good_name, skip_comment
 # from classes import Line, Module, Module_for_search, Pin
 # from process_func import is_good_name, skip_comment
 
