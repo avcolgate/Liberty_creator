@@ -4,6 +4,7 @@ from funcs import STA, LIB, LEF, VERILOG, NETLIST, RESULTS, TCL, clean_up_or_mak
 from config import clocks
 
 from lib_creator.get_inputs.main import get_module_name, get_module_inputs
+from lib_creator.get_leakage.main import get_leakage
 from lib_creator.get_size.main import get_size
 from lib_creator.get_transition.main import get_net_transition
 from lib_creator.make_template.main import make_template
@@ -45,5 +46,7 @@ for clk_t in clk_transition:
 
             print('ready: clk_%s_pin_%s' % (clk_t, pin_t))
 os.remove(temp_tcl_path)
+
+module_leakage = get_leakage("%s/%s_power.txt" % (RESULTS.path, module_name))
 
 merge_lib(RESULTS.path)
