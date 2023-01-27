@@ -2,7 +2,7 @@ import os
 
 def get_leakage(file_path: str) -> float:
     if not os.path.exists(file_path):
-        print("fatal (getting module leagake): input file does not exist")
+        print("fatal (getting module leakage): input file does not exist")
         exit()
 
     group_list = list()
@@ -25,7 +25,7 @@ def get_leakage(file_path: str) -> float:
                 break
 
     if leakage == -1:
-        print("fatal (getting module leagake): leagake not found")
+        print("fatal (getting module leakage): leagake not found")
         exit()
     
     return leakage
