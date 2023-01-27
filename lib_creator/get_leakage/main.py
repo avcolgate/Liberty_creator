@@ -5,7 +5,7 @@ def get_leakage(file_path: str) -> float:
         print("fatal (getting module leakage): input file does not exist")
         exit()
     if os.path.splitext(file_path)[1] != '.txt':
-        print("fatal (getting module leakage): incorrect extension of input file")
+        print("fatal (getting module leakage): extension of input file must be .txt")
         exit()
 
     group_list = list()
