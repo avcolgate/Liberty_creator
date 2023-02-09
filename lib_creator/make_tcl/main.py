@@ -1,6 +1,6 @@
 from typing import List
 
-def make_template(
+def make_tcl(
     design_name: str,
     inputs: List[str],
     clock_names_arr: List[str],
