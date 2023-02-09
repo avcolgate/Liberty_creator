@@ -2,7 +2,7 @@ from typing import List
 
 def make_template(
     design_name: str,
-    inputs: List[float],
+    inputs: List[str],
     clock_names_arr: List[str],
     transitions: List[float],
     lib_arr: List[str],

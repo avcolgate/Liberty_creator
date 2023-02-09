@@ -1,7 +1,6 @@
 
 from lib_creator.get_inputs.parse_func import get_top_module, parse_body
 from lib_creator.get_inputs.process_func import define_init_data
-from lib_creator.get_inputs.classes import Module
 from typing import List
 
 #*         0    1     2

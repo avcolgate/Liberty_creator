@@ -1,6 +1,5 @@
 class Path:
-    def __init__(self, type: str, name: str, is_critical: bool, path: str = '') -> None:
-        self.type = type
+    def __init__(self, type_: str, name: str, path: str = '') -> None:
+        self.type_ = type_
         self.name = name
-        self.is_critical = is_critical
         self.path = path

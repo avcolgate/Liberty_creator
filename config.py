@@ -1,4 +1,4 @@
-path_sta = '/home/avcolgate/OpenSTA/app/sta'
+path_opensta = '/home/avcolgate/OpenSTA/app/sta'
 
 design_name = 'lib_sample'
 #TODO попробовать убрать
@@ -10,5 +10,5 @@ path_lef = 'tests/data/source/%s/%s.lef' % (design_name, design_name)
 path_verilog = 'tests/data/source/%s/%s.v' % (design_name, design_name)
 path_netlist = 'tests/data/source/%s/%s_netlist_mikron.v' % (design_name, design_name)
 
-results_dir = 'tests/data/results/%s' % design_name
-tcl_dir = '.tcl'
+dir_results = 'tests/data/results/%s' % design_name
+dir_tcl = '.tcl'

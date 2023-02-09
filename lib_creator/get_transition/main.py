@@ -12,15 +12,12 @@ def get_net_transition(file_path: str) -> List[float]:
     index_arr = []
     template_list = []
     is_template_section = False
-    lb_index = '("'
-    rb_index = '")'
     index_line = ''
-
 
     f = open(file_path, 'r')
 
     # collecting body of all templates
-    for line_num, line in enumerate(f):
+    for line in f:
         if 'lu_table_template' in line:
             is_template_section = True
             template = Template()
@@ -32,6 +29,10 @@ def get_net_transition(file_path: str) -> List[float]:
         if 'cell(' in line.replace(' ', ''):                      # temp!
             break
 
+    if not template_list:
+        print('get transition step:\n\tfatal: no templates found in input Liberty!\n\texiting')
+        exit()
+    
     # filling name, variables, indices of template
     for templ in template_list:
         for line in templ.body:
@@ -44,7 +45,7 @@ def get_net_transition(file_path: str) -> List[float]:
                 line = line.replace('"', '')
                 templ.variable.append(line)
             if 'index' in line:
-                line = line[line.find(lb_index)+len(lb_index):line.find(rb_index)].strip()
+                line = line[line.find('(')+1:line.find(')')].strip()
                 line = line.replace('"', '')
                 templ.index.append(line)
 
@@ -63,7 +64,10 @@ def get_net_transition(file_path: str) -> List[float]:
             for ind in index_line:
                 temp = float(ind)
                 index_arr.append(temp)
-
             break
 
-    return index_arr
+    if not index_arr:
+        print('get transition step:\n\tfatal: no correct templates found in input Liberty!\n\texiting')
+        exit()
+    else:
+        return index_arr
