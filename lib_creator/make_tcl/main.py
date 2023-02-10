@@ -6,7 +6,6 @@ def make_tcl(
     clock_names_arr: List[str],
     transitions: List[float],
     lib_arr: List[str],
-    tcl_dir: str,
     output_dir: str,
     netlist_path: str
     ) -> None:
@@ -35,8 +34,10 @@ def make_tcl(
 
     clk_tran = '%clk%'
     pin_tran = '%pin%'
+
+    output_tcl_name = '.tcl/temp.tcl'
     
-    output_tcl = open(tcl_dir + '/temp.tcl', 'w')
+    output_tcl = open(output_tcl_name , 'w')
 
     for lib_name in lib_arr:
         output_tcl.write('read_liberty %s\n' % lib_name.strip())

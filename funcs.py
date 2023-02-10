@@ -1,9 +1,9 @@
 import os
-from classes import Path
+from typing import List
 from config import *
 from lib_creator.get_inputs.process_func import is_good_name
 
-def data_init() -> tuple[Path]:
+def data_init() -> None:
 
     # design name and clock check
     try:
@@ -13,7 +13,7 @@ def data_init() -> tuple[Path]:
     except NameError:
         print('data init step:\n\tfatal: design_name is not defined in config.py!\n\texiting')
         exit()
-        
+
     try:
         for clk in clocks:
             if not is_good_name(clk):
@@ -71,12 +71,6 @@ def data_init() -> tuple[Path]:
         print('data init step:\n\tfatal: dir_results is not defined in config.py!\n\texiting')
         exit()
 
-    try:
-        clean_up_or_make(dir_tcl)
-    except NameError:
-        print('data init step:\n\tfatal: dir_tcl is not defined in config.py!\n\texiting')
-        exit()
-
 
 def clean_up_or_make(dir_name: str) -> None:
     if os.path.exists(dir_name) and os.path.isdir(dir_name):
@@ -84,3 +78,22 @@ def clean_up_or_make(dir_name: str) -> None:
             os.remove(os.path.join(dir_name, f))
     else:
         os.mkdir(dir_name)
+
+def multirun(clk_transition: List[float], pin_transitions: List[float]):
+    temp_tcl_path = '.tcl/temp.tcl'
+    for clk_t in clk_transition:
+        for pin_t in pin_transitions:
+            with open(file=temp_tcl_path, mode='rt') as file:
+                text = file.read()
+                text = text.replace('%pin%', str(pin_t))
+                text = text.replace('%clk%', str(clk_t))
+                exec_path = '.tcl/make_lib_clk_%s_pin_%s.tcl' % (clk_t, pin_t)
+                with open(file=exec_path, mode="w") as file_out:
+                    file_out.write(text)
+
+                cmd = path_opensta + ' -no_splash ' + exec_path
+                os.system(cmd)
+                os.remove(exec_path)
+
+                print('ready: clk_%s_pin_%s' % (clk_t, pin_t))
+    os.remove(temp_tcl_path)

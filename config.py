@@ -11,4 +11,3 @@ path_verilog = 'tests/data/source/%s/%s.v' % (design_name, design_name)
 path_netlist = 'tests/data/source/%s/%s_netlist_mikron.v' % (design_name, design_name)
 
 dir_results = 'tests/data/results/%s' % design_name
-dir_tcl = '.tcl'
