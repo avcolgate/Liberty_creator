@@ -48,8 +48,9 @@ def parse_templates(file_path: str) -> List[Template]:
 
 def get_transitions(file_path: str) -> List[float]:
     min_value = 9999999
+    template = None
 
-    template_list = parse_templates(file_path=file_path)
+    template_list = parse_templates(file_path)
 
     # choosing template where the maximum capacitance is minimal
     for templ in template_list:
@@ -62,12 +63,12 @@ def get_transitions(file_path: str) -> List[float]:
                 min_value = value
                 template = templ
 
-    if not template:
+    if template is None:
         print('get transition step:\n\tfatal: no correct templates found in input Liberty!\n\texiting')
         exit()
 
     for num, var in enumerate(template.variables):
         if var == 'input_net_transition':
-            index_list = templ.indices[num]
+            transition_list = template.indices[num]
 
-    return index_list
+    return transition_list
