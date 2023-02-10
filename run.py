@@ -1,6 +1,6 @@
 import os
 
-from funcs import data_init, multirun
+from funcs import data_init, multirun, clean_up_or_make
 from config import *
 
 from lib_creator.get_inputs.main import get_module_name, get_module_inputs
@@ -24,4 +24,6 @@ multirun(clk_transitions, pin_transitions)
 
 module_leakage = get_leakage("%s/%s_power.txt" % (dir_results, module_name))
 
-merge_lib(dir_results)
+merge_lib(dir_results, module_name)
+
+clean_up_or_make(dir_name=dir_results, except_of=module_name+'.lib')

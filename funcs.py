@@ -72,10 +72,11 @@ def data_init() -> None:
         exit()
 
 
-def clean_up_or_make(dir_name: str) -> None:
+def clean_up_or_make(dir_name: str, except_of: str = '') -> None:
     if os.path.exists(dir_name) and os.path.isdir(dir_name):
         for f in os.listdir(dir_name):
-            os.remove(os.path.join(dir_name, f))
+            if f != except_of:
+                os.remove(os.path.join(dir_name, f))
     else:
         os.mkdir(dir_name)
 
