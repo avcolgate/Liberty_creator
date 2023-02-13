@@ -8,7 +8,7 @@ from lib_creator.get_leakage.main import get_leakage
 from lib_creator.get_size.main import get_size
 from lib_creator.parse_templates.main import get_transitions
 from lib_creator.make_tcl.main import make_tcl
-from lib_merger.merger.main import merge_lib
+from lib_merger.main import merge_lib
 
 data_init()
 
@@ -24,6 +24,6 @@ multirun(clk_transitions, pin_transitions)
 
 module_leakage = get_leakage("%s/%s_power.txt" % (dir_results, module_name))
 
-merge_lib(dir_results, module_name)
+merge_lib(dir_results, dir_results, module_name)
 
 clean_up_or_make(dir_name=dir_results, except_of=module_name+'.lib')
