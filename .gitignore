@@ -3,6 +3,6 @@ __pycache__/
 .tcl/
 .vscode/
 tests/data/source/liberty/
-lib_merger/merger/logic/
-lib_merger/merger/pyeda/
+lib_merger/logic/
+lib_merger/pyeda/
 test.py
