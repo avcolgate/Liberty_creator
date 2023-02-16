@@ -5,15 +5,7 @@ from lib_creator.get_inputs.process_func import is_good_name
 
 def data_init() -> None:
 
-    # design name and clock check
-    try:
-        if not is_good_name(design_name):
-            print('data init step:\n\tfatal: design_name is bad name!\n\texiting')
-            exit()
-    except NameError:
-        print('data init step:\n\tfatal: design_name is not defined in config.py!\n\texiting')
-        exit()
-
+    # clock check
     try:
         for clk in clocks:
             if not is_good_name(clk):

@@ -16,7 +16,7 @@ module_name = get_module_name(path_verilog)
 module_inputs = get_module_inputs(path_verilog)
 size = get_size(path_lef)
 pin_transitions = get_transitions(path_input_lib)
-clk_transitions = 'NaN' if not clocks else pin_transitions
+clk_transitions = ['NaN'] if not clocks else pin_transitions
 
 make_tcl(module_name, module_inputs, clocks, pin_transitions, path_input_lib, dir_results, path_netlist)
 
@@ -24,6 +24,6 @@ multirun(clk_transitions, pin_transitions)
 
 module_leakage = get_leakage("%s/%s_power.txt" % (dir_results, module_name))
 
-merge_lib(dir_results, dir_results, module_name)
+merge_lib(data_from=dir_results, data_to=dir_results, module_name=module_name)
 
 clean_up_or_make(dir_name=dir_results, except_of=module_name+'.lib')
