@@ -1,9 +1,7 @@
-import os
-
 from funcs import data_init, multirun, clean_up_or_make
 from config import *
 
-from lib_creator.get_inputs.main import get_module_name, get_module_inputs
+from lib_creator.get_inputs.main import get_module_params
 from lib_creator.get_leakage.main import get_leakage
 from lib_creator.get_size.main import get_size
 from lib_creator.parse_templates.main import get_transitions
@@ -12,8 +10,7 @@ from lib_merger.main import merge_lib
 
 data_init()
 
-module_name = get_module_name(path_verilog)
-module_inputs = get_module_inputs(path_verilog)
+module_name, module_inputs = get_module_params(path_verilog)
 size = get_size(path_lef)
 pin_transitions = get_transitions(path_input_lib)
 clk_transitions = ['NaN'] if not clocks else pin_transitions

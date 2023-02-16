@@ -1,228 +1,96 @@
 import re
 
-from lib_creator.get_inputs.classes import Line, Module, Module_for_search, Pin
+from lib_creator.get_inputs.classes import Module
 from lib_creator.get_inputs.process_func import is_good_name, skip_comment
 
-def parse_body(temp_module: Module) -> Module:
-    module_name = temp_module.name
-    module_body_arr = temp_module.text_arr
-    module_offset = temp_module.offset + 1
-
-    is_module_section = False
-    module = Module()
-
-    for line_num, curr_line in enumerate(module_body_arr): # TODO сделать отдельную функцию
-        line = Line(curr_line)
-        
-        if not is_module_section and line.is_module_line():
-            # print(line.content)
-            module.name = module_name
-            is_module_section = True
-            continue
-
-        if is_module_section:
-            if line.is_pin_line():
-                # print(line.content)
-                pin_arr = parse_section_pins(line, module.pins, line_num + module_offset)
-                for pin in pin_arr:
-                    module.append_pin(pin)
-                continue
-            if line.is_endmodule_line():
-                # print(line.content)
-                is_module_section = False
-                break
-            
-    return module
 
 # * fatals:
-# duplicate name
-# unknown parameter in pin size
-# negative pin size
-# negitive pin size values
-# unknown expression in pin size values (not +/-) => unknown parameter
-# float pin size
-# * warnings:
-# equal limits in pin size
-def parse_section_pins(line: str, pin_list: list, line_num: int) -> list:
-    pin_arr = []
-    pin_direction = 'NaN'
-    k = 1
-
-    temp = line.content.strip().replace('\t', ' ')
-
-    pin_direction_name = re.sub(r'\[[^()]*\]', '', temp) # substracting size
-
-    if 'input' in pin_direction_name:
-        pin_direction = 'input'
-    if 'output' in pin_direction_name:
-        pin_direction = 'output'
-    if 'inout' in pin_direction_name:
-        pin_direction = 'inout'
-
-    temp_name = pin_direction_name.replace(pin_direction, '').strip()
-
-    pin_size = temp[temp.find('['):temp.find(']') + 1] # [...]
-    
-    temp_name = temp_name.replace('reg', '').replace('wire', '').replace('tri', '').replace('integer', '')
-    temp_name = temp_name.strip()
-
-    # check if there is a bad type in temp_name (whitespace between)
-    if ' ' in temp_name and not ',' in temp_name:
-        print("fatal: bad pin type '%s', line %i\n" % (temp_name, line_num + 1))
-        exit()  
-
-    temp_name = re.sub("[;| |\t]", "", temp_name) # name1,name2,..
-    if ',' in temp_name:
-        temp_name_arr = temp_name.split(',')
-    else:
-        temp_name_arr = [temp_name]
-    temp_name_arr = list(filter(None, temp_name_arr))  # deleting '' names
-    # print('temp_name_arr:', temp_name_arr) # names array
-
-    # check for duplicate and bad name
-    for name in temp_name_arr:
-            if not is_good_name(name):
-                print("fatal: bad pin name '%s', line %i\n" % (name, line_num + 1))
-                exit()
-    for pin in pin_list:
-        for name in temp_name_arr:
-            if pin.name == name:
-                print("fatal: duplicate pin name '%s', line %i\n" % (name, line_num + 1))
-                exit()   
-
-    # * parametric size
-    if pin_size:
-        pin_wire_type = 'bus'
-        
-    # * simple size (=1)
-    else:
-        pin_wire_type = 'wire'
-
-    for pin_name in temp_name_arr:
-        pin = Pin(pin_name, pin_direction, pin_wire_type)
-        pin_arr.append(pin)
-
-    return pin_arr
-
-
-#* fatals:
 # no modules in file
 # duplicate module name
-# specified module not found
+# duplicate pin name
+# bad module name
+# bad pin name
 # two or more non-callable modules
-# two or more modules modules have the maximum number of attachments
-def get_top_module(lines: list, specified_name: str='') -> Module:
-    module_list = []
-    found_specified = False
+def get_top_module(filename: str) -> Module:
+    top_module = Module()
+    module_list = list()
 
-    # collecting module names and it's content
-    temp_name = ''
-    temp_line = ''
-    start_line = 0
-    is_module_section = False
+    with open(file=filename, mode='rt') as file:
+        lines = file.read().split('\n')
+        is_module_section = False
 
-    # collecting bodies of each module
-    for line_num, line in enumerate(lines):
-        line = skip_comment(line)
-        line = line.replace('\t', ' ')
-        
-        if line == ' ' or '`define' in line:
-            continue
+        for line_num, curr_line in enumerate(lines):
+            curr_line = skip_comment(curr_line).replace('\t', ' ')
 
-        line = Line(line)
-        # outside module section -- searching start line of a module
-        if not is_module_section:
-            if line.is_module_line():
-                module_fs = Module_for_search()
-                temp_name = ''
-                start_line = line_num
-                module_fs.offset = line_num
-                is_module_section = True
-            else:
+            if curr_line == ' ' or '`define' in curr_line:
                 continue
 
-        # inside module section -- adding each line
-        if is_module_section:
-            temp_line = line.content.strip()
-            module_fs.text += temp_line + ' '
-            module_fs.text_arr.append(temp_line)
+            if not is_module_section:
+                if 'module' in curr_line and not 'endmodule' in curr_line:
+                    module = Module()
+                    is_module_section = True
+                else:
+                    continue
 
-        # getting module name
-        if not module_fs.name:
-            temp_name += temp_line + ' '
+            if is_module_section:
+                module.content.append(curr_line)
+                module.text += curr_line + ' '
+                if 'input' in curr_line:
+                    input_line = re.sub(r'\[[^()]*\]', '', curr_line)  # subtracting size
+                    inputs = input_line[input_line.find('input') + len('input'):input_line.find(';')].replace(' ', '').split(',')
+                    for i in inputs:
+                        if i in module.inputs:
+                            print("read verilog step:\n\tfatal: duplicate input name '%s'!\n\texiting" % i)
+                            exit()
+                        if not is_good_name(i):
+                            print("read verilog step:\n\tfatal: bad input name '%s'!\n\texiting" % i)
+                            exit()
+                        module.inputs.append(i)
 
-            # note: ';' is end of module string
-            if ';' in temp_line:
-                temp_name = re.sub(r'\([^()]*\)', '', temp_name)
-                temp_name = temp_name.replace('module', '')
-                temp_name = re.sub('[;| ]', '', temp_name)
-                module_fs.name = temp_name
-                temp_name = ''
+            if is_module_section and 'endmodule' in curr_line:
+                is_module_section = False
+                module_list.append(module)
 
-        if is_module_section and line.is_endmodule_line():
-            for mod in module_list:
-                if mod.name == module_fs.name:
-                    print("fatal: duplicate module name '%s', line %i\n" % (module_fs.name, start_line + 1))
-                    exit() 
+    for mod in module_list:
+        name = ''
+        for string in mod.content:
+            name += string
+            if '(' in string:
+                break
+        name = name[name.find('module') + len('module'):name.find('(')].strip()  # from module to ()
+        mod.name = name
 
-            is_module_section = False
-            module_list.append(module_fs)
-            del module_fs
-    
-    
+    for x in module_list:
+        for y in module_list:
+            if x.name == y.name and x != y:
+                print("read verilog step:\n\tfatal: duplicate module name '%s'!\n\texiting" % x.name)
+                exit()
+
     if not module_list:
-        print('fatal: no modules in file\n')
+        print("read verilog step:\n\tfatal: no module in file!\n\texiting")
         exit()
 
-    top_module = Module()
+    # * define top module
+    # finding attachments, and it's number in each module
+    for master in module_list:
+        for slave in module_list:
+            if slave.name in master.text and slave.name not in master.attachments and slave.name != master.name:
+                master.attachments.append(slave.name)
+                master.attach_num += 1
+                slave.called = True
 
-    #* MANUAL mode: return module with specified name
-    if specified_name:
-        for mod in module_list:
-            if mod.name == specified_name:
-                found_specified = True
-                top_module = mod
-                return top_module
-
-        if not found_specified:
-            print("fatal: specified module '%s' not found\n" % (specified_name))
-            exit() 
-
-    #* AUTOMATIC mode: define top module
-    # finding attachments and its number in each module
-    for mod in module_list:
-        for submod in module_list:
-            if submod.name in mod.text and \
-                submod.name not in mod.attachments and \
-                submod.name not in mod.name:
-                mod.attachments.append(submod.name)
-                mod.attach_num += 1
-                submod.called = True
-    
     max_att = -1
-    count_non_callable = 0
+    count_masters = 0
     for mod in module_list:
         if not mod.called:
-            count_non_callable += 1
-            # print(mod.name)
+            count_masters += 1
             if mod.attach_num > max_att:
                 max_att = mod.attach_num
+                top_module = mod
 
-    if count_non_callable > 1:
-        print('fatal: top module is implicitly specified (there are two or more non-callable modules)\n')
-        exit()
-
-
-    # choosing top module as non-callable module
-    count_top = 0
-    for mod in module_list:
-        if not mod.called and mod.attach_num == max_att:
-            top_module = mod
-            count_top += 1
-
-    if count_top > 1:
-        print('fatal: there are two or more non-callable modules modules have the maximum number of attachments\n')
+    if count_masters > 1:
+        print(
+            "read verilog step:\n\tfatal: top module is implicitly specified (there are two or more non-callable modules)!\n\texiting")
         exit()
 
     return top_module
-    
