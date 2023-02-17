@@ -11,7 +11,7 @@ from lib_merger.main import merge_lib
 data_init()
 
 module_name, module_inputs = get_module_params(path_verilog)
-size = get_size(path_lef)
+module_size = get_size(path_lef)
 pin_transitions = get_transitions(path_input_lib)
 clk_transitions = ['NaN'] if not clocks else pin_transitions
 
@@ -21,6 +21,6 @@ multirun(clk_transitions, pin_transitions)
 
 module_leakage = get_leakage("%s/%s_power.txt" % (dir_results, module_name))
 
-merge_lib(data_from=dir_results, data_to=dir_results, module_name=module_name)
+merge_lib(data_from=dir_results, data_to=dir_results, module_name=module_name, module_size=module_size, module_leakage=module_leakage)
 
 clean_up_or_make(dir_name=dir_results, except_of=module_name+'.lib')
