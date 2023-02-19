@@ -1,11 +1,11 @@
 from funcs import data_init, multirun, clean_up_or_make
 from config import *
 
-from lib_creator.get_inputs.main import get_module_params
-from lib_creator.get_leakage.main import get_leakage
-from lib_creator.get_size.main import get_size
-from lib_creator.parse_templates.main import get_transitions
-from lib_creator.make_tcl.main import make_tcl
+from lib_creator.verilog_reader.verilog_funcs import get_module_params
+from lib_creator.leakage_reader.leakage_funcs import get_leakage
+from lib_creator.lef_reader.lef_funcs import get_size
+from lib_creator.lib_reader.lib_funcs import get_transitions
+from lib_creator.tcl_maker.tcl_funcs import make_tcl
 from lib_merger.main import merge_lib
 
 data_init()
@@ -21,6 +21,6 @@ multirun(clk_transitions, pin_transitions)
 
 module_leakage = get_leakage("%s/%s_power.txt" % (dir_results, module_name))
 
-merge_lib(data_from=dir_results, data_to=dir_results, module_name=module_name, module_size=module_size, module_leakage=module_leakage)
+merge_lib(data_from=dir_results, data_to=dir_results, module_name=module_name, size=module_size, leakage=module_leakage)
 
 clean_up_or_make(dir_name=dir_results, except_of=module_name+'.lib')

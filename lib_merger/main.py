@@ -4,7 +4,7 @@ from lib_merger import misc_funcs
 from lib_merger import axis_funcs
 from copy import deepcopy
 
-def merge_lib(data_from: str, data_to: str, module_name: str, module_size: float, module_leakage: float):
+def merge_lib(data_from: str, data_to: str, module_name: str, size: float, leakage: float):
     data_files, net_transitions = misc_funcs.data_load(data_from)
     data_template = deepcopy(data_files[0])
 
