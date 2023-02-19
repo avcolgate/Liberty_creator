@@ -1,12 +1,12 @@
 from funcs import data_init, multirun, clean_up_or_make
 from config import *
 
-from lib_creator.verilog_reader.verilog_funcs import get_module_params
-from lib_creator.leakage_reader.leakage_funcs import get_leakage
-from lib_creator.lef_reader.lef_funcs import get_size
-from lib_creator.lib_reader.lib_funcs import get_transitions
-from lib_creator.tcl_maker.tcl_funcs import make_tcl
-from lib_merger.main import merge_lib
+from data_processing.verilog_funcs import get_module_params
+from data_processing.leakage_funcs import get_leakage
+from data_processing.lef_funcs import get_size
+from data_processing.lib_funcs import get_transitions
+from data_processing.tcl_funcs import make_tcl
+from lib_merge.main import merge_lib
 
 data_init()
 

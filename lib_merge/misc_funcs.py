@@ -1,4 +1,4 @@
-from lib_merger.logic import Liberty
+from lib_merge.logic import Liberty
 import os
 import re
 

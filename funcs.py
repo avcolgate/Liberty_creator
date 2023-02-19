@@ -1,7 +1,7 @@
 import os
 from typing import List
 from config import *
-from lib_creator.verilog_reader.verilog_funcs import is_good_name
+from data_processing.verilog_funcs import is_good_name
 
 def data_init() -> None:
 
