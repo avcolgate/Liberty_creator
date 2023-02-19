@@ -3,4 +3,3 @@ __pycache__/
 .tcl/
 .vscode/
 tests/data/source/liberty/
-test.py
