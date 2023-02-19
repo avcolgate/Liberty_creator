@@ -1,7 +1,7 @@
-from lib_merge import bus_funcs
-from lib_merge import pin_funcs
-from lib_merge import misc_funcs
-from lib_merge import axis_funcs
+from file_merging import bus_funcs
+from file_merging import pin_funcs
+from file_merging import misc_funcs
+from file_merging import axis_funcs
 from copy import deepcopy
 
 def merge_lib(data_from: str, data_to: str, module_name: str, size: float, leakage: float):

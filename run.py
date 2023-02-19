@@ -6,7 +6,7 @@ from data_processing.leakage_funcs import get_leakage
 from data_processing.lef_funcs import get_size
 from data_processing.lib_funcs import get_transitions
 from data_processing.tcl_funcs import make_tcl
-from lib_merge.main import merge_lib
+from file_merging.merge_funcs import merge_lib
 
 data_init()
 
