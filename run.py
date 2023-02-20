@@ -15,9 +15,9 @@ module_size = get_size(path_lef)
 pin_transitions = get_transitions(path_input_lib)
 clk_transitions = ['NaN'] if not clocks else pin_transitions
 
-make_tcl(module_name, module_inputs, clocks, pin_transitions, path_input_lib, dir_results, path_netlist)
+make_tcl(module_name, module_inputs, clocks, pin_transitions, path_input_lib, dir_results, path_netlist, dir_temp)
 
-multirun(clk_transitions, pin_transitions)
+multirun(clk_transitions, pin_transitions, dir_temp)
 
 module_leakage = get_leakage("%s/%s_power.txt" % (dir_results, module_name))
 

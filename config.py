@@ -8,3 +8,4 @@ path_input_lib = 'tests/data/source/liberty/nom_1.65V_25C/CORELIB8DLL.lib'
 path_lef = 'tests/data/source/lib_sample/lib_sample.lef'
 
 dir_results = 'tests/data/results/lib_sample'
+dir_temp = 'tests/data/results/temp'

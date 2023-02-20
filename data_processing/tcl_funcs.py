@@ -7,7 +7,8 @@ def make_tcl(
     transitions: List[float],
     lib_arr: List[str],
     output_dir: str,
-    netlist_path: str
+    netlist_path: str,
+    temp_dir: str
     ) -> None:
 
     max_val = -1.0
@@ -35,7 +36,7 @@ def make_tcl(
     clk_tran = '%clk%'
     pin_tran = '%pin%'
 
-    output_tcl_name = '.tcl/temp.tcl'
+    output_tcl_name = temp_dir + '/temp.tcl'
     
     output_tcl = open(output_tcl_name , 'w')
 

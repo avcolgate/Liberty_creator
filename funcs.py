@@ -62,6 +62,11 @@ def data_init() -> None:
     except NameError:
         print("data init step:\n\tfatal: dir_results is not defined in config.py!\n\texiting")
         exit()
+    try:
+        clean_up_or_make(dir_temp)
+    except NameError:
+        print("data init step:\n\tfatal: dir_results is not defined in config.py!\n\texiting")
+        exit()
 
 
 def clean_up_or_make(dir_name: str, except_of: str = '') -> None:
@@ -72,15 +77,15 @@ def clean_up_or_make(dir_name: str, except_of: str = '') -> None:
     else:
         os.mkdir(dir_name)
 
-def multirun(clk_transition: List[float], pin_transitions: List[float]):
-    temp_tcl_path = ".tcl/temp.tcl"
+def multirun(clk_transition: List[float], pin_transitions: List[float], dir_temp: str):
+    temp_tcl_path = dir_temp + "/temp.tcl"
     for clk_t in clk_transition:
         for pin_t in pin_transitions:
             with open(file=temp_tcl_path, mode='rt') as file:
                 text = file.read()
                 text = text.replace("%pin%", str(pin_t))
                 text = text.replace("%clk%", str(clk_t))
-                exec_path = ".tcl/make_lib_clk_%s_pin_%s.tcl" % (clk_t, pin_t)
+                exec_path = dir_temp + "/make_lib_clk_%s_pin_%s.tcl" % (clk_t, pin_t)
                 with open(file=exec_path, mode="w") as file_out:
                     file_out.write(text)
 
