@@ -42,6 +42,7 @@ def get_top_module(filename: str) -> Module:
                 module.text += curr_line + ' '
                 if 'input' in curr_line:
                     input_line = re.sub(r'\[[^()]*\]', '', curr_line)  # subtracting size
+                    input_line = input_line.replace('wire', '').replace('reg', '')
                     inputs = input_line[input_line.find('input') + len('input'):input_line.find(';')].replace(' ', '').split(',')
                     for i in inputs:
                         if i in module.inputs:
